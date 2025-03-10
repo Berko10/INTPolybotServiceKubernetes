@@ -1,5 +1,3 @@
-cat yolo5-service.yaml 
-
 apiVersion: v1
 
 kind: Service
