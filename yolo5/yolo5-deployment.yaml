@@ -6,6 +6,8 @@ metadata:
 
   name: yolo5-deployment
 
+  namespace: default
+
 spec:
 
   replicas: 2 
