@@ -6,6 +6,8 @@ metadata:
 
   name: yolo5-service
 
+  namespace: default
+
 spec:
 
   selector:
