@@ -6,6 +6,8 @@ metadata:
 
   name: polybot
 
+  namespace: default
+
 spec:
 
   selector:
