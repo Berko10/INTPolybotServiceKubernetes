@@ -6,6 +6,8 @@ metadata:
 
   name: polybot-deployment
 
+  namespace: default
+
 spec:
 
   replicas: 2
