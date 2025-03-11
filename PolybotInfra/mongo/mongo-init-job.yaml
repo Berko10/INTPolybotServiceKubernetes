@@ -1,0 +1,118 @@
+apiVersion: batch/v1
+
+kind: Job
+
+metadata:
+
+  name: mongo-reset-replicaset
+
+spec:
+
+  template:
+
+    spec:
+
+      containers:
+
+      - name: mongo
+
+        image: mongo:latest
+
+        command:
+
+          - /bin/bash
+
+          - -c
+
+          - |
+
+            # Wait for MongoDB to be ready using mongosh
+
+            echo "Waiting for MongoDB to be ready..."
+
+            until mongosh --host mongo-0.mongo --eval "print('Mongo is ready')" &>/dev/null; do
+
+              echo "Waiting for mongo-0.mongo..."
+
+              sleep 3
+
+            done
+
+
+
+            until mongosh --host mongo-1.mongo --eval "print('Mongo is ready')" &>/dev/null; do
+
+              echo "Waiting for mongo-1.mongo..."
+
+              sleep 3
+
+            done
+
+
+
+            until mongosh --host mongo-2.mongo --eval "print('Mongo is ready')" &>/dev/null; do
+
+              echo "Waiting for mongo-2.mongo..."
+
+              sleep 3
+
+            done
+
+
+
+            # Verify the ReplicaSet status
+
+            echo "Checking ReplicaSet status..."
+
+            mongosh --host mongo-0.mongo --eval "rs.status()"
+
+
+
+            # Force step down if there is an existing PRIMARY
+
+            echo "Forcing step down of existing primary..."
+
+            mongosh --host mongo-0.mongo --eval "rs.stepDown({force: true})"
+
+
+
+            # Reconfigure ReplicaSet
+
+            echo "Reconfiguring ReplicaSet..."
+
+            mongosh --host mongo-0.mongo --eval "
+
+              cfg = rs.conf();
+
+              cfg.members[0].host = 'mongo-0.mongo';
+
+              cfg.members[1].host = 'mongo-1.mongo';
+
+              cfg.members[2].host = 'mongo-2.mongo';
+
+              rs.reconfig(cfg, {force: true});
+
+            "
+
+
+
+            # Wait for MongoDB to elect the primary
+
+            echo "Waiting for MongoDB to elect a new primary..."
+
+            until mongosh --host mongo-0.mongo --eval "rs.status()" | grep -q 'PRIMARY'; do
+
+              echo "Waiting for PRIMARY election..."
+
+              sleep 3
+
+            done
+
+
+
+            echo "ReplicaSet is now correctly configured."
+
+      restartPolicy: Never
+
+  backoffLimit: 4
+
