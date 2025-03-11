@@ -1,0 +1,93 @@
+apiVersion: v1
+
+kind: PersistentVolume
+
+metadata:
+
+  name: mongo-pv-0
+
+spec:
+
+  capacity:
+
+    storage: 1Gi
+
+  accessModes:
+
+    - ReadWriteOnce
+
+  persistentVolumeReclaimPolicy: Retain
+
+  storageClassName: standard
+
+  volumeMode: Filesystem
+
+  awsElasticBlockStore:
+
+    volumeID: vol-0c379a177fe518b65 
+
+    fsType: ext4
+
+---
+
+apiVersion: v1
+
+kind: PersistentVolume
+
+metadata:
+
+  name: mongo-pv-1
+
+spec:
+
+  capacity:
+
+    storage: 1Gi
+
+  accessModes:
+
+    - ReadWriteOnce
+
+  persistentVolumeReclaimPolicy: Retain
+
+  storageClassName: standard
+
+  volumeMode: Filesystem
+
+  awsElasticBlockStore:
+
+    volumeID: vol-0c1b433892559cab8 
+
+    fsType: ext4
+
+---
+
+apiVersion: v1
+
+kind: PersistentVolume
+
+metadata:
+
+  name: mongo-pv-2
+
+spec:
+
+  capacity:
+
+    storage: 1Gi
+
+  accessModes:
+
+    - ReadWriteOnce
+
+  persistentVolumeReclaimPolicy: Retain
+
+  storageClassName: standard
+
+  volumeMode: Filesystem
+
+  awsElasticBlockStore:
+
+    volumeID: vol-0462dfdf53235017c 
+
+    fsType: ext4
