@@ -84,3 +84,9 @@ spec:
 
         - name: dockerhub-secret
 
+       tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Equal"
+          value: ""
+          effect: "NoSchedule"
+
