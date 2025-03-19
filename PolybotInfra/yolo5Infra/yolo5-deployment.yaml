@@ -85,8 +85,8 @@ spec:
         - name: dockerhub-secret
 
        tolerations:
-        - key: "node-role.kubernetes.io/master"
+        - key: "kubernetes.io/hostname"
           operator: "Equal"
-          value: ""
+          value: "control-plane"
           effect: "NoSchedule"
 
