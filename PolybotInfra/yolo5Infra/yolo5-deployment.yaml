@@ -101,10 +101,3 @@ spec:
       imagePullSecrets:
 
         - name: dockerhub-secret
-
-       tolerations:
-        - key: "kubernetes.io/hostname"
-          operator: "Equal"
-          value: "control-plane"
-          effect: "NoSchedule"
-
